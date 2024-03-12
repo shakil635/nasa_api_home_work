@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
-  /*
+    /*
     1* add your ui desing and call backed
     2* Image.network(jsonList[index].href
     3* use index for load image in Image.network 
@@ -24,20 +24,12 @@ class _HomePageState extends State<HomePage> {
     */
   }
 
-
-
-
-
-
-
-
-
   List<NasaImageApi> jsonList = [];
 
   Future<List<NasaImageApi>> getData() async {
     try {
-      final response = await http.get(Uri.parse(
-          "https://images-api.nasa.gov/search?q=$userInput"));
+      final response = await http
+          .get(Uri.parse("https://images-api.nasa.gov/search?q=$userInput"));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body)["collection"]["items"];
         for (var item in data) {
@@ -48,6 +40,7 @@ class _HomePageState extends State<HomePage> {
             }
           }
         }
+        print(jsonList);
 
         return jsonList;
       } else {
