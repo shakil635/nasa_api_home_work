@@ -1,13 +1,5 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
-/*
-    1* add your ui desing and call backed
-    2* Image.network(jsonList[index].href
-    3* use index for load image in Image.network 
-    4* userInput take a random "march",it remove when ui desing finish
-    */
 
 Future<List<dynamic>> getItems(String userInput) async {
   try {
