@@ -38,7 +38,7 @@ class SearchBox extends StatefulWidget {
 
 class _SearchBoxState extends State<SearchBox> {
   final TextEditingController txt = TextEditingController();
-  String nasaImageResponse = "";
+  List<String> nasaImageResponseLinks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +80,8 @@ class _SearchBoxState extends State<SearchBox> {
                 child: Center(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: Image.network(
-                      nasaImageResponse,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Text('Image not found');
-                      },
+                    child: Column(
+                      children: returnAllImagesFromNasa(nasaImageResponseLinks),
                     ),
                   ),
                 ),
@@ -97,13 +93,25 @@ class _SearchBoxState extends State<SearchBox> {
     );
   }
 
+  List<Widget> returnAllImagesFromNasa(List<String> listOfLinks) {
+    return listOfLinks
+        .map((link) => Image.network(
+              link,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return const Text('Image not found');
+              },
+            ))
+        .toList();
+  }
+
   void submitButtonPressed(String text) async {
     try {
       final items = await getItems(text);
       final links = getLinks(items);
       print(links.join('\n'));
       setState(() {
-        nasaImageResponse = links.isNotEmpty ? links[0] : '';
+        nasaImageResponseLinks = links.isNotEmpty ? links : [];
       });
     } catch (e) {
       print('Error fetching data: $e');
